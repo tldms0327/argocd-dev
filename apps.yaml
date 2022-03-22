@@ -18,3 +18,24 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: addons
+  namespace: argocd
+spec:
+  project: addons 
+  source:
+    repoURL: "git@github.com:tldms0327/argocd-dev.git"
+    targetRevision: main
+    path: addons 
+  destination:
+    name: in-cluster
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
