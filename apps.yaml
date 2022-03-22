@@ -7,7 +7,7 @@ spec:
   project: apps
   source:
     repoURL: https://github.com/tldms0327/argocd-dev
-    targetRevision: HEAD
+    targetRevision: main
     path: apps
   destination:
     name: in-cluster
