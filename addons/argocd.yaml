@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/tldms0327/argocd-dev.git
+        revision: HEAD
+
+  template:
+    metadata:
+      name: "argocd"
+      annotations:
+        notifications.argoproj.io/subscribe.on-sync-succeeded.slack: noti-argocd-addon
+      labels:
+        app.kubernetes.io/instance: "addons"
+    spec:
+      project: addons
+      destination:
+        name: in-cluster
+        namespace: argocd
+      source:
+        repoURL: https://argoproj.github.io/argo-helm
+        targetRevision: "4.2.1"
+        chart: argo-cd
+        helm:
+          values: |-
+            fullnameOverride: argocd
+            controller:
+              resources:
+                requests:
+                  cpu: 250m
+                  memory: 512Mi
+                limits:
+                  cpu: 500m
+                  memory: 1Gi
+              metrics:
+                enabled: true
+                serviceMonitor:
+                  enabled: true
+                  interval: 30s
+                  selector:
+                    release: prometheus
