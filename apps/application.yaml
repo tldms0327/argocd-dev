@@ -1,20 +1,20 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps
+  name: test-server
   namespace: argocd
+  # annotations:
+  #   recipients.argocd-notifications.argoproj.io: slack:noti-argocd
 spec:
-  project: apps
+  project: app
   source:
+    path: test-server
     repoURL: https://github.com/tldms0327/argocd-dev
-    targetRevision: HEAD
-    path: apps
+    targetRevision: main
   destination:
     name: in-cluster
-    namespace: argocd
+    namespace: test-server
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true
