@@ -1,0 +1,7 @@
+aws_account_id: "400956673334"
+aws_region: ap-northeast-2
+
+country: kr
+
+argocd:
+  hostname: afd8eafc05a1d4fa5ad48878022af512-321684137.ap-northeast-2.elb.amazonaws.com
