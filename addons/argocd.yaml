@@ -42,3 +42,13 @@ spec:
                   interval: 30s
                   selector:
                     release: prometheus
+
+              notifications:
+                argocdUrl: http://afd8eafc05a1d4fa5ad48878022af512-321684137.ap-northeast-2.elb.amazonaws.com
+                resources:
+                  requests:
+                    cpu: 50m
+                    memory: 128Mi
+                  limits:
+                    cpu: 100m
+                    memory: 256Mi
