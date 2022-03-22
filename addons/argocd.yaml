@@ -8,7 +8,7 @@ spec:
         repoURL: https://github.com/tldms0327/argocd-dev.git
         revision: HEAD
         files:
-          - paths: "env/demo.yaml"
+          - path: "env/demo.yaml"
 
   template:
     metadata:
