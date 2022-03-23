@@ -29,12 +29,12 @@ metadata:
 spec:
   project: apps
   source:
-    path: test-server
+    path: test-server-2
     repoURL: https://github.com/tldms0327/argocd-dev
     targetRevision: main
   destination:
     name: in-cluster
-    namespace: test-server
+    namespace: test-server-2
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
