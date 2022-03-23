@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-server
-  namespace: test-server-2
+  name: test-server-2
+  namespace: test-server-2-2
   labels:
-    app: test-server
+    app: test-server-2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: test-server
+      app: test-server-2
   template:
     metadata:
       labels:
-        app: test-server
+        app: test-server-2
     spec:
       containers:
-        - name: test-server
-          image: test-server
+        - name: test-server-2
+          image: test-server-2
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
