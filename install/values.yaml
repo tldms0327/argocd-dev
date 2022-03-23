@@ -121,9 +121,14 @@ notifications:
             },
             {
               "title": "Revision",
-              "value": "{{.app.status.sync.revision}}",
+              "value": "<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|{{.app.status.sync.revision}}>",
               "short": true
-            }
+            },
+            {
+              "title": "MetaData",
+              "value": "{{.repo.GetCommitMetadata}}",
+              "short": true
+            },
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
             {{if $index}},{{end}}
