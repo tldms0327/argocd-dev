@@ -85,11 +85,15 @@ notifications:
       - slack:noti-argocd-addon
       triggers:
       - on-deployed
+    - recipients:
+      - slack:noti-argocd-apps
+      triggers:
       - on-health-degraded
       - on-sync-failed
       - on-sync-running
       - on-sync-status-unknown
       - on-sync-succeeded
+
   templates:
   
     # For more information: https://argocd-notifications.readthedocs.io/en/stable/templates/
