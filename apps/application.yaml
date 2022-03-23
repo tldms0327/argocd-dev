@@ -18,3 +18,23 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-server-2
+  namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: noti-argocd-addon
+spec:
+  project: apps
+  source:
+    path: test-server
+    repoURL: https://github.com/tldms0327/argocd-dev
+    targetRevision: main
+  destination:
+    name: in-cluster
+    namespace: test-server
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
