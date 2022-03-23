@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: test-server
-  namespace: test-server
+  namespace: test-server-2
   labels:
     app: test-server
 spec:
