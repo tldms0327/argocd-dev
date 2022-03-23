@@ -5,5 +5,5 @@ resources:
 - deployment.yaml
 
 images:
-- name: test-server
+- name: test-server-2
   newName: 400956673334.dkr.ecr.ap-northeast-2.amazonaws.com/test-server
