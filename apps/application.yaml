@@ -6,6 +6,8 @@ metadata:
   namespace: argocd
   annotations:
     recipients.argocd-notifications.argoproj.io: slack:noti-argocd-apps
+    notifications.argoproj.io/subscribe.slack: noti-argocd-apps
+
 spec:
   project: apps
   source:
@@ -26,6 +28,7 @@ metadata:
   namespace: argocd
   annotations:
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: noti-argocd-addon
+    notifications.argoproj.io/subscribe.slack: noti-argocd-addon
 spec:
   project: apps
   source:
