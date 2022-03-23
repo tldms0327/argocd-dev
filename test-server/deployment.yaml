@@ -27,10 +27,10 @@ spec:
               cpu: 70m
               memory: 50Mi
             requests:
-              cpu: 50m
+              cpu: 70m
               memory: 50Mi
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "sleep 40"]
+                command: ["/bin/sh", "-c", "sleep 30"]
     
