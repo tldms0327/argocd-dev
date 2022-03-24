@@ -32,5 +32,5 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "sleep 40"]
+                command: ["/bin/sh", "-c", "sleep 60"]
     
