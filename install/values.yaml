@@ -1,7 +1,7 @@
 fullnameOverride: argocd
 
 server:
-  replicas: 2
+  replicas: 1
 
   service:
     type: LoadBalancer
@@ -58,7 +58,7 @@ server:
           kind: "*"
 
 repoServer:
-  replicas: 2
+  replicas: 1
 
 
 notifications:
