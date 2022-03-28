@@ -5,7 +5,7 @@ metadata:
   name: test-server
   namespace: argocd
   annotations:
-    recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addons
+    recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addon
 
 spec:
   project: apps
@@ -29,7 +29,7 @@ metadata:
   name: test-server-2
   namespace: argocd
   annotations:
-    recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addons
+    recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addon
 
 spec:
   project: apps
