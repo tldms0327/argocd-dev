@@ -9,7 +9,7 @@ metadata:
     # 구버전
     on-sync-succeeded.recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addon
     # 현재버전
-    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argocd-addon
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: noti-argocd-addon
 
 spec:
   project: apps
