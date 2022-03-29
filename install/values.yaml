@@ -78,7 +78,7 @@ notifications:
 
   notifiers:
     service.slack: |
-      token: "ARGOCD_NOTI_TOKEN"
+      token: $slack-token
   subscriptions:
     # For more information: https://argocd-notifications.readthedocs.io/en/stable/subscriptions/
     - recipients:
