@@ -89,7 +89,7 @@ notifications:
       - slack:noti-argocd-apps
       triggers:
       - on-sync-failed
-      - on-sync-running
+      # - on-sync-running
       - on-sync-succeeded
 
   templates:
@@ -125,6 +125,11 @@ notifications:
             {
               "title": "Revision Information",
               "value": "{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
+              "short": false
+            },
+            {
+              "title": "Images",
+              "value": "{{ range .app.status.summary.images }}- {{.}}\n{{end}}",
               "short": false
             }
             {{range $index, $c := .app.status.conditions}}
