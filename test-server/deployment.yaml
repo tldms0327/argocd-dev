@@ -24,13 +24,13 @@ spec:
               name: http
           resources:
             limits:
-              cpu: 70m
+              cpu: 50m
               memory: 50Mi
             requests:
-              cpu: 70m
+              cpu: 50m
               memory: 50Mi
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "sleep 60"]
+                command: ["/bin/sh", "-c", "sleep 30"]
     
