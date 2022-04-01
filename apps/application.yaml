@@ -26,24 +26,24 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: test-server-2
-  namespace: argocd
-  annotations:
-    recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addon
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: test-server-2
+#   namespace: argocd
+#   annotations:
+#     recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addon
 
-spec:
-  project: apps
-  source:
-    path: test-server-2
-    repoURL: https://github.com/tldms0327/argocd-dev
-    targetRevision: main
-  destination:
-    name: in-cluster
-    namespace: test-server-2
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
+# spec:
+#   project: apps
+#   source:
+#     path: test-server-2
+#     repoURL: https://github.com/tldms0327/argocd-dev
+#     targetRevision: main
+#   destination:
+#     name: in-cluster
+#     namespace: test-server-2
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNamespace=true
