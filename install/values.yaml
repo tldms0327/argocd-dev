@@ -84,12 +84,15 @@ notifications:
     - recipients:
       - slack:noti-argocd-addon
       triggers:
-      - on-deployed
+      - on-sync-succeeded
     - recipients:
       - slack:noti-argocd-apps
       triggers:
+      - on-deployed
+      - on-health-degraded
       - on-sync-failed
-      # - on-sync-running
+      - on-sync-running
+      - on-sync-status-unknown
       - on-sync-succeeded
 
   templates:
@@ -228,6 +231,13 @@ notifications:
             {{end}}
             ]
           }]
+    template.app-deleted: |
+      message: | 
+        {{if eq .serviceType "slack"}}:exclamation:{{end}} 애플리케이션 [*{{.app.metadata.name}}*] 가 {{.app.status.operationState.finishedAt}}에 삭제되었습니다. 
+    template.app-created: |
+      message: | 
+        {{if eq .serviceType "slack"}}:new:{{end}} 애플리케이션 [*{{.app.metadata.name}}*] 가 {{.app.metadata.creationTimestamp}}에 생성되었습니다. 
+
     template.app-sync-succeeded: |
       message: |
         {{if eq .serviceType "slack"}}:white_check_mark:{{end}} [*{{.app.metadata.name}}*] 가 성공적으로 동기화되었습니다.
@@ -245,6 +255,11 @@ notifications:
               "short": true
             },
             {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            },
+            {
               "title": "Operator",
               {{ if .app.status.operationState.operation.initiatedBy.username }}
               "value": {{toJson .app.status.operationState.operation.initiatedBy.username}},
@@ -253,11 +268,21 @@ notifications:
               {{ end }}
               "short": true
             },
+            {{range $key, $value := .app.status.operationState.syncResult.resources }}
+            {{ if $value.message }}
             {
-              "title": "Repository",
-              "value": "{{.app.spec.source.repoURL}}",
+              "title": "Operation",
+              "value": "{{$value.message}}",
+              "short": false
+            },
+            {{ else }}
+            {
+              "title": "Operation",
+              "value": "{{$value}}",
               "short": true
             },
+            {{ end }}
+            {{end}}
             {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
              {
               "title": "Revision Time",
@@ -313,7 +338,19 @@ notifications:
       - description: Application syncing has succeeded
         send:
         - app-sync-succeeded
-        when: app.status.operationState.phase in ['Succeeded']
+        when: app.status.operationState.phase in ['Succeeded', 'Failed', 'Error']
+      - description: Application is deleted.
+        oncePer: app.metadata.name
+        send:
+        - app-deleted
+        when: app.metadata.deletionTimestamp != nil
+      - description: Application is created.
+        oncePer: app.metadata.name
+        send:
+        - app-created
+        when: "true"
+     
+      
 
 configs:
   secret:
