@@ -268,23 +268,17 @@ notifications:
               {{ end }}
               "short": true
             },
-            {{range $key, $value := .app.status.operationState.syncResult.resources }}
-            {{ if $value.message }}
+            {{ range $key, $value := .app.status.operationState.syncResult.resources }}
+            {{ if or (contains "configured" $value.message) (contains "created" $value.message)}}
             {
               "title": "Operation",
-              "value": "{{$value.message}}",
-              "short": false
-            },
-            {{ else }}
-            {
-              "title": "Operation",
-              "value": "{{$value}}",
+              "value": {{toJson $value.message}},
               "short": true
             },
             {{ end }}
-            {{end}}
+            {{ end }}
             {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
-             {
+            {
               "title": "Revision Time",
               "value": "{{$commitMetadata.Date}}(<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>) ",
               "short": true
