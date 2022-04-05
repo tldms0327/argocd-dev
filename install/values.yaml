@@ -268,8 +268,10 @@ notifications:
               {{ end }}
               "short": true
             },
+            {{ $flag := false }}
             {{ range $key, $value := .app.status.operationState.syncResult.resources }}
             {{ if or (contains "configured" $value.message) (contains "created" $value.message)}}
+            {{ $flag = true }}
             {
               "title": "Operation",
               "value": {{toJson $value.message}},
@@ -277,6 +279,13 @@ notifications:
             },
             {{ end }}
             {{ end }}
+            {{ if eq $flag false }}
+            {
+              "title": "Operation",
+              "value": "변경사항이 없습니다.",
+              "short": true
+            }
+            {{ else }}
             {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
             {
               "title": "Revision Time",
@@ -288,6 +297,7 @@ notifications:
               "value": "{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
               "short": false
             }
+            {{ end }}
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
             {{if $index}},{{end}}
