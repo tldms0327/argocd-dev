@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: test-server
 resources:
 - deployment.yaml
+- service.yaml
 
 images:
 - name: test-server
