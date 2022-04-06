@@ -269,14 +269,11 @@ notifications:
               "short": true
             },
             {{ $flag := false }}
+            {{ $operations := list "" }}
             {{ range $key, $value := .app.status.operationState.syncResult.resources }}
             {{ if or (contains "configured" $value.message) (contains "created" $value.message)}}
             {{ $flag = true }}
-            {
-              "title": "Operation",
-              "value": {{toJson $value.message}},
-              "short": true
-            },
+            {{ $operations = concat $operations (list $value.message)}}
             {{ end }}
             {{ end }}
             {{ if eq $flag false }}
@@ -286,6 +283,11 @@ notifications:
               "short": true
             }
             {{ else }}
+            {
+              "title": "Operation",
+              "value": "{{ join "\\n" $operations }}",
+              "short": true
+            },
             {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
             {
               "title": "Revision Time",
