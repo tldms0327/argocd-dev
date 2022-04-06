@@ -179,46 +179,26 @@ notifications:
             {{end}}
             ]
           }]
-    template.app-sync-running: |
+    template.app-health-degraded: |
       message: |
-        {{if eq .serviceType "slack"}}:white_check_mark:{{end}} [*{{.app.metadata.name}}*] 가 동기화중입니다.
-        <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true|상세정보> {{.app.status.operationState.startedAt}}
+        {{if eq .serviceType "slack"}}:exclamation:{{end}} Application {{.app.metadata.name}} has degraded.
+        Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
       slack:
         attachments: |-
           [{
             "title": "{{ .app.metadata.name}}",
-            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
-            "color": "#0DADEA",
+            "title_link": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#f4c030",
             "fields": [
             {
               "title": "Sync Status",
               "value": "{{.app.status.sync.status}}",
               "short": true
             },
-             {
-              "title": "Operator",
-              {{ if .app.status.operationState.operation.initiatedBy.username }}
-              "value": {{toJson .app.status.operationState.operation.initiatedBy.username}},
-              {{ else }}
-              "value": "auto-sync",
-              {{ end }}
-              "short": true
-            },
             {
               "title": "Repository",
               "value": "{{.app.spec.source.repoURL}}",
               "short": true
-            },
-            {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
-             {
-              "title": "Revision Time",
-              "value": "{{$commitMetadata.Date}}(<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>) ",
-              "short": true
-            },
-            {
-              "title": "Revision Information",
-              "value": "{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
-              "short": false
             }
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
@@ -231,13 +211,43 @@ notifications:
             {{end}}
             ]
           }]
-    template.app-deleted: |
-      message: | 
-        {{if eq .serviceType "slack"}}:exclamation:{{end}} 애플리케이션 [*{{.app.metadata.name}}*] 가 {{.app.status.operationState.finishedAt}}에 삭제되었습니다. 
-    template.app-created: |
-      message: | 
-        {{if eq .serviceType "slack"}}:new:{{end}} 애플리케이션 [*{{.app.metadata.name}}*] 가 {{.app.metadata.creationTimestamp}}에 생성되었습니다. 
-
+    templated.app-sync-status-unknown: |
+      message: |
+        {{if eq .serviceType "slack"}}:exclamation:{{end}} Application {{.app.metadata.name}} sync is 'Unknown'.
+        Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
+        {{if ne .serviceType "slack"}}
+        {{range $c := .app.status.conditions}}
+            * {{$c.message}}
+        {{end}}
+        {{end}}
+      slack:
+        attachments: |
+          [{
+            "title": "{{ .app.metadata.name}}",
+            "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+            "color": "#E96D76",
+            "fields": [
+            {
+              "title": "Sync Status",
+              "value": "{{.app.status.sync.status}}",
+              "short": true
+            },
+            {
+              "title": "Repository",
+              "value": "{{.app.spec.source.repoURL}}",
+              "short": true
+            }
+            {{range $index, $c := .app.status.conditions}}
+            {{if not $index}},{{end}}
+            {{if $index}},{{end}}
+            {
+              "title": "{{$c.type}}",
+              "value": "{{$c.message}}",
+              "short": true
+            }
+            {{end}}
+            ]
+          }]
     template.app-sync-succeeded: |
       message: |
         {{if eq .serviceType "slack"}}:white_check_mark:{{end}} [*{{.app.metadata.name}}*] 가 성공적으로 동기화되었습니다.
@@ -306,6 +316,12 @@ notifications:
             {{end}}
             ]
           }]
+    template.app-deleted: |
+      message: | 
+        {{if eq .serviceType "slack"}}:exclamation:{{end}} 애플리케이션 [*{{.app.metadata.name}}*] 가 {{.app.status.operationState.finishedAt}}에 삭제되었습니다. 
+    template.app-created: |
+      message: | 
+        {{if eq .serviceType "slack"}}:new:{{end}} 애플리케이션 [*{{.app.metadata.name}}*] 가 {{.app.metadata.creationTimestamp}}에 생성되었습니다. 
 
   triggers:
     # For more information: https://argocd-notifications.readthedocs.io/en/stable/triggers/
@@ -339,7 +355,7 @@ notifications:
       - description: Application syncing has succeeded
         send:
         - app-sync-succeeded
-        when: app.status.operationState.phase in ['Succeeded', 'Failed', 'Error']
+        when: app.status.operationState.phase in ['Succeeded']
       - description: Application is deleted.
         oncePer: app.metadata.name
         send:
