@@ -286,17 +286,12 @@ notifications:
             {
               "title": "Operation",
               "value": "{{ join "\\n" $operations }}",
-              "short": true
+              "short": false
             },
             {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
             {
-              "title": "Revision Time",
-              "value": "{{$commitMetadata.Date}}(<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>) ",
-              "short": true
-            },
-            {
               "title": "Revision Information",
-              "value": "{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
+              "value": "{{$commitMetadata.Date}} [<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>] \n{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
               "short": false
             }
             {{ end }}
