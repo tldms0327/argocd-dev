@@ -24,10 +24,10 @@ spec:
               name: http
           resources:
             limits:
-              cpu: 100m
+              cpu: 200m
               memory: 500Mi
             requests:
-              cpu: 100m
+              cpu: 200m
               memory: 500Mi
           lifecycle:
             preStop:
