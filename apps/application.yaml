@@ -32,8 +32,6 @@ kind: Application
 metadata:
   name: test-server-2
   namespace: argocd
-  annotations:
-    recipients.argocd-notifications.argoproj.io: slack:noti-argocd-addon
 
 spec:
   project: apps
