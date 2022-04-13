@@ -13,9 +13,9 @@ spec:
   template:
     metadata:
       name: "aws-load-balancer-controller"
-      labels:
-        app.kubernetes.io/instance: "aws-load-balancer-controller-eks-dev"
-        app.kubernetes.io/name: "aws-load-balancer-controller"
+      # labels:
+      #   app.kubernetes.io/instance: "aws-load-balancer-controller-eks-dev"
+      #   app.kubernetes.io/name: "aws-load-balancer-controller"
 
     spec:
       project: addons
