@@ -31,8 +31,6 @@ spec:
               - --enable-skip-login
               - --enable-insecure-login
             protocolHttp: true
-            service:
-              externalPort: 80
             resources:
               requests:
                 cpu: 50m
@@ -44,6 +42,7 @@ spec:
               enabled: true
               annotations:
                 kubernetes.io/ingress.class: "alb"
+                alb.ingress.kubernetes.io/certificate-arn: "{acm_arn}"
                 alb.ingress.kubernetes.io/ip-address-type: "dualstack"
                 alb.ingress.kubernetes.io/scheme: "internet-facing"
                 alb.ingress.kubernetes.io/target-type: "ip"

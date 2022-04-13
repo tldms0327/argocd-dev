@@ -2,6 +2,8 @@ aws_account_id: "400956673334"
 aws_region: ap-northeast-2
 cluster: eks-dev
 
+acm_arn: arn:aws:acm:ap-northeast-2:400956673334:certificate/b77ff718-a98b-4ffb-a5b6-cbb337965d84
+
 country: kr
 
 argocd:
