@@ -1,0 +1,7 @@
+fullnameOverride: aws-load-balancer-controller
+
+clusterName: "eks-dev"
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::400956673334:role/irsa--eks-dev--aws-load-balancer-controller"
