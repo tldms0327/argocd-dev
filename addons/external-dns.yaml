@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: external-dns
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/tldms0327/argocd-dev.git
+        revision: HEAD
+        files:
+          - path: "env/demo.yaml"
+
+  template:
+    metadata:
+      name: "external-dns"
+      labels:
+        app.kubernetes.io/instance: "addons"
+    spec:
+      project: addons
+      destination:
+        name: in-cluster
+        namespace: addon-external-dns
+      source:
+        repoURL: https://kubernetes-sigs.github.io/external-dns
+        targetRevision: "1.7.1"
+        chart: external-dns
+        helm:
+          values: |-
+            fullnameOverride: external-dns
+            sources:
+              - ingress
+              - service
+            serviceAccount:
+              annotations:
+                eks.amazonaws.com/role-arn: "arn:aws:iam::{{aws_account_id}}:role/irsa--{{cluster}}--external-dns"
+        
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
