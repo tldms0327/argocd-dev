@@ -3,13 +3,26 @@ fullnameOverride: argocd
 server:
   replicas: 1
 
-  service:
-    type: LoadBalancer
+  # service, ingress 모두 작동, 헬름차트 실행 후 만들어지는 Elb를 route53 에서 argocd.kkarin.com과 연결해주면 된다! 
+  # elb가 타겟을 찾기 위해서 vpc의 태그를 이용하기 때문에 vpc 설정을 확인해야 한다. 
+  # 참고: https://aws.amazon.com/ko/premiumsupport/knowledge-center/eks-vpc-subnet-discovery/
+  # service:
+  #   type: LoadBalancer
+  #   annotations:
+  #     service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+  #     service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
+  #     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "AWS_ACM_CERT"
+  #     service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+  ingress:
+    enabled: true
     annotations:
-      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
-      service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
-      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "AWS_ACM_CERT"
-      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+      kubernetes.io/ingress.class: "alb"
+      alb.ingress.kubernetes.io/certificate-arn: "AWS_ACM_CERT"
+      alb.ingress.kubernetes.io/ip-address-type: "dualstack"
+      alb.ingress.kubernetes.io/scheme: "internet-facing"
+      alb.ingress.kubernetes.io/target-type: "ip"
+    hosts:
+      - "ARGOCD_HOSTNAME"
 
   extraArgs:
     - --insecure
