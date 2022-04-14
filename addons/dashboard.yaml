@@ -50,6 +50,18 @@ spec:
                 alb.ingress.kubernetes.io/target-type: "ip"
               hosts:
                 - "dashboard.{{hostname.public}}"
+              spec:
+                rules:
+                  - host: dashboard.kkarin.com
+                    http:
+                      paths:
+                        - backend:
+                            service:
+                              name: dashboard
+                              port:
+                                number: 80
+                          path: /
+                          pathType: Prefix
           
       syncPolicy:
         automated:
