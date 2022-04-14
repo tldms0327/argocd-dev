@@ -30,7 +30,6 @@ spec:
             extraArgs:
               - --enable-skip-login
               - --enable-insecure-login
-            protocolHttp: true
             resources:
               requests:
                 cpu: 50m
