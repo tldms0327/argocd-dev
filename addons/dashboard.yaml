@@ -22,7 +22,7 @@ spec:
         namespace: addon-dashboard
       source:
         repoURL: https://kubernetes.github.io/dashboard
-        targetRevision: "5.4.1"
+        targetRevision: "5.1,2"
         chart: kubernetes-dashboard
         helm:
           values: |-
@@ -33,7 +33,6 @@ spec:
             protocolHttp: true
             service:
               externalPort: 80
-              
             resources:
               requests:
                 cpu: 50m
