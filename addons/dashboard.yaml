@@ -50,6 +50,9 @@ spec:
                 alb.ingress.kubernetes.io/target-type: "ip"
               hosts:
                 - "dashboard.{{hostname.public}}"
+              # 삽질기록: path 기본값이 '/'로 돼 있어서 아래 값을 넣지 않으면 alb 리스너 룰에 '/'이 ImplementationSpecific 타입으로 들어가게 된다
+              # 이러면 지정한 호스트 외의 모든 pathrk 404로 떠서 대시보드를 쓸 수 없음!!!
+              # 아래와 같이 path를 열어줘야 alb 리스너 룰에 적용된다.
               paths:
                 - /*
       syncPolicy:
