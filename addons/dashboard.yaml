@@ -30,6 +30,7 @@ spec:
             extraArgs:
               - --enable-skip-login
               - --enable-insecure-login
+            protocolHttp: true
             resources:
               requests:
                 cpu: 50m
@@ -50,7 +51,7 @@ spec:
           
       syncPolicy:
         automated:
-          prune: true
-          selfHeal: true
+          prune: false
+          selfHeal: false
         syncOptions:
           - CreateNamespace=true
