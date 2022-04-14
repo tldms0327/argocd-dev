@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: dashboard-extra
+  name: dashboard-rbac
 spec:
   generators:
     - git:
@@ -12,7 +12,7 @@ spec:
 
   template:
     metadata:
-      name: "dashboard-extra"
+      name: "dashboard-rbac"
       labels:
         app.kubernetes.io/instance: "addons"
       
@@ -27,7 +27,7 @@ spec:
         chart: raw
         helm:
           values: |-
-            fullnameOverride: dashboard-extra
+            fullnameOverride: dashboard-rbac
             resources:
               - apiVersion: rbac.authorization.k8s.io/v1
                 kind: ClusterRole
@@ -81,35 +81,7 @@ spec:
                   - kind: ServiceAccount
                     namespace: addon-dashboard
                     name: dashboard
-              # - apiVersion: networking.istio.io/v1beta1
-              #   kind: Gateway
-              #   metadata:
-              #     name: dashboard
-              #   spec:
-              #     selector:
-              #       istio: ingressgateway
-              #     servers:
-              #       - hosts:
-              #           - "dashboard.{{hostname.public}}"
-              #         port:
-              #           number: 80
-              #           name: http
-              #           protocol: HTTP
-              # - apiVersion: networking.istio.io/v1beta1
-              #   kind: VirtualService
-              #   metadata:
-              #     name: dashboard
-              #   spec:
-              #     hosts:
-              #       - "dashboard.{{hostname.public}}"
-              #     gateways:
-              #       - dashboard
-              #     http:
-              #       - route:
-              #           - destination:
-              #               host: dashboard
-              #               port:
-              #                 number: 80
+        
       syncPolicy:
         automated:
           prune: true
