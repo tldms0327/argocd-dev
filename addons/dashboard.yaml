@@ -51,14 +51,7 @@ spec:
               hosts:
                 - "dashboard.{{hostname.public}}"
               paths:
-                - backend:
-                    service:
-                      name: dashboard
-                      port:
-                        number: 80
-                  path: /
-                  pathType: Prefix
-          
+                - /*
       syncPolicy:
         automated:
           prune: false
