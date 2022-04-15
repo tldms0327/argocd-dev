@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: loki
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/tldms0327/argocd-dev.git
+        revision: HEAD
+        files:
+          - path: "env/demo.yaml"
+
+  template:
+    metadata:
+      name: "loki"
+      labels:
+        app.kubernetes.io/instance: "addons"
+    spec:
+      project: addons
+      destination:
+        name: in-cluster
+        namespace: addon-loki
+      source:
+        repoURL: https://grafana.github.io/helm-charts
+        targetRevision: "2.10.2"
+        chart: loki
+        helm:
+          values: |-
+            fullnameOverride: loki
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                cpu: 500m
+                memory: 1024Mi
+            persistence:
+              enabled: false
+              # accessModes:
+              #   - ReadWriteOnce
+              # size: 50Gi
+              # storageClassName: gp3
+            serviceMonitor:
+              enabled: true
+              additionalLabels:
+                release: prometheus-{{cluster}}
+            ingress:
+              enabled: true
+              annotations:
+                kubernetes.io/ingress.class: "alb"
+                alb.ingress.kubernetes.io/certificate-arn: "{{acm_arn}}"
+                alb.ingress.kubernetes.io/ip-address-type: "dualstack"
+                alb.ingress.kubernetes.io/scheme: "internet-facing"
+                alb.ingress.kubernetes.io/target-type: "ip"
+              hosts:
+                - "loki.{{hostname.public}}"
+  
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
