@@ -27,6 +27,9 @@ spec:
         helm:
           values: |-
             fullnameOverride: promtail
+            image:
+              registry: docker.io
+              repository: grafana/promtail
             config:
               lokiAddress: https://loki.kkarin.com/loki/api/v1/push
               # snippets:
