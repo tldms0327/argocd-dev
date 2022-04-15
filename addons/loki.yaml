@@ -54,6 +54,8 @@ spec:
                 alb.ingress.kubernetes.io/target-type: "ip"
               hosts:
                 - host: "loki.{{hostname.public}}"
+                  paths:
+                    - /*
               
   
       syncPolicy:
