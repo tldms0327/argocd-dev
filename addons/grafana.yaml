@@ -113,11 +113,11 @@ spec:
                   url: https://raw.githubusercontent.com/argoproj/argo-cd/master/examples/dashboard.json
                   datasource: Prometheus
             persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-              size: 5Gi
-              storageClassName: gp3
+              enabled: false
+              # accessModes:
+              #   - ReadWriteOnce
+              # size: 5Gi
+              # storageClassName: gp3
             serviceMonitor:
               enabled: true
               labels:
