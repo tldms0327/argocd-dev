@@ -28,7 +28,7 @@ spec:
           values: |-
             fullnameOverride: promtail
             config:
-              lokiAddress: http://loki.kkarin.com/loki/api/v1/push
+              lokiAddress: https://loki.kkarin.com/loki/api/v1/push
               # snippets:
               #   extraClientConfigs: |
               #     external_labels:
