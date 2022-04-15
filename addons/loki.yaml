@@ -53,7 +53,8 @@ spec:
                 alb.ingress.kubernetes.io/scheme: "internet-facing"
                 alb.ingress.kubernetes.io/target-type: "ip"
               hosts:
-                - "loki.{{hostname.public}}"
+                - host: "loki.{{hostname.public}}"
+              
   
       syncPolicy:
         # automated:
