@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: promtail
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/tldms0327/argocd-dev.git
+        revision: HEAD
+        files:
+          - path: "env/demo.yaml"
+
+  template:
+    metadata:
+      name: "promtail"
+      labels:
+        app.kubernetes.io/instance: "addons"
+    spec:
+      project: addons
+      destination:
+        name: in-cluster
+        namespace: addon-promtail
+      source:
+        repoURL: https://grafana.github.io/helm-charts
+        targetRevision: "3.11.0"
+        chart: promtail
+        helm:
+          values: |-
+            fullnameOverride: promtail
+            config:
+              lokiAddress: http://loki.kkarin.com/loki/api/v1/push
+              # snippets:
+              #   extraClientConfigs: |
+              #     external_labels:
+              #       cluster: "{{cluster}}"
+            # tolerations:
+            #   - operator: Exists
+          
+      syncPolicy:
+        # automated:
+        #   prune: true
+        #   selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
