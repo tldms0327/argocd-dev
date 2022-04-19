@@ -30,6 +30,7 @@ spec:
             image:
               registry: docker.io
               repository: grafana/promtail
+              tag: 2.1.0
             config:
               lokiAddress: https://loki.kkarin.com/loki/api/v1/push
               # snippets:
