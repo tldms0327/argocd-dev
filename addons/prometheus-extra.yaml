@@ -47,6 +47,8 @@ spec:
                 kind: ExternalSecret
                 metadata:
                   name: prometheus-alertmanager-secret
+                  annotations:
+                    argocd.argoproj.io/sync-wave: "-1"
                 spec:
                   backendType: systemManager
                   data:
