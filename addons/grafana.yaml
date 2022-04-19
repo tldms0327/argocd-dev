@@ -15,6 +15,7 @@ spec:
       name: "grafana"
       labels:
         app.kubernetes.io/instance: "addons"
+        app.kubernetes.io/version: 8.1.6
     spec:
       project: addons
       destination:
