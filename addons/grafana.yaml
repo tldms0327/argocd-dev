@@ -15,7 +15,6 @@ spec:
       name: "grafana"
       labels:
         app.kubernetes.io/instance: "addons"
-        app.kubernetes.io/version: 8.1.6
     spec:
       project: addons
       destination:
@@ -28,6 +27,10 @@ spec:
         helm:
           values: |-
             fullnameOverride: grafana
+            image:
+              registry: docker.io
+              repository: grafana/grafana
+              tag: 8.1.6
             revisionHistoryLimit: 3
             # admin:
             #   existingSecret: "grafana-secret"
