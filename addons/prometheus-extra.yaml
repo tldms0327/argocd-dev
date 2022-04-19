@@ -54,8 +54,10 @@ spec:
                       name: slack-hooks
                   template:
                     metadata:
-                      labels:
-                        release: prometheus
+                      annotations:
+                        version: v1
+                        argocd.argoproj.io/sync-options: Prune=false
+
             
               - apiVersion: monitoring.coreos.com/v1
                 kind: PrometheusRule
