@@ -28,34 +28,34 @@ spec:
           values: |-
             fullnameOverride: prometheus-extra
             resources:
-              - apiVersion: external-secrets.io/v1beta1
-                kind: ExternalSecret
-                metadata:
-                  name: prometheus-alertmanager-secret
-                spec:
-                  refreshInterval: 1h
-                  secretStoreRef:
-                    kind: ClusterSecretStore
-                    name: parameter-store
-                  target:
-                    name: prometheus-alertmanager-secret
-                  data:
-                    - secretKey: slack-hooks
-                      remoteRef:
-                        key: /k8s/common/slack/grafana
-              # - apiVersion: kubernetes-client.io/v1
+              # - apiVersion: external-secrets.io/v1beta1
               #   kind: ExternalSecret
               #   metadata:
               #     name: prometheus-alertmanager-secret
               #   spec:
-              #     backendType: systemManager
+              #     refreshInterval: 1h
+              #     secretStoreRef:
+              #       kind: ClusterSecretStore
+              #       name: parameter-store
+              #     target:
+              #       name: prometheus-alertmanager-secret
               #     data:
-              #       - key: /k8s/common/slack/grafana
-              #         name: slack-hooks
-              #     template:
-              #       metadata:
-              #         labels:
-              #           release: prometheus-{{cluster}}
+              #       - secretKey: slack-hooks
+              #         remoteRef:
+              #           key: /k8s/common/slack/grafana
+              - apiVersion: kubernetes-client.io/v1
+                kind: ExternalSecret
+                metadata:
+                  name: prometheus-alertmanager-secret
+                spec:
+                  backendType: systemManager
+                  data:
+                    - key: /k8s/common/slack/grafana
+                      name: slack-hooks
+                  template:
+                    metadata:
+                      labels:
+                        release: prometheus
             
               - apiVersion: monitoring.coreos.com/v1
                 kind: PrometheusRule
