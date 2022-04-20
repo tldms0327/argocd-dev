@@ -69,10 +69,10 @@ spec:
                   url: http://prometheus-prometheus.addon-prometheus.svc.cluster.local:9090
                   access: proxy
                   isDefault: true
-                # - name: Loki
-                #   type: loki
-                #   url: {{grafana.datasource.loki}}
-                #   access: proxy
+                - name: Loki
+                  type: loki
+                  url: https://loki.kkarin.com
+                  access: proxy
             dashboardProviders:
               dashboardproviders.yaml:
                 apiVersion: 1
