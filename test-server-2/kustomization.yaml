@@ -4,7 +4,7 @@ namespace: test-server-2
 resources:
 - deployment.yaml
 - service.yaml
-# - secret.yaml
+- secret.yaml
 
 images:
 - name: test-server-2
