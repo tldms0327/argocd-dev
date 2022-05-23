@@ -20,7 +20,7 @@ spec:
           image: alert-delivery
           imagePullPolicy: Always
           ports:
-            - containerPort: 8000
+            - containerPort: 3000
               name: http
           resources:
             limits:
