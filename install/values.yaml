@@ -293,7 +293,7 @@ notifications:
             {{ $flag := false }}
             {{ $operations := list "" }}
             {{ range $key, $value := .app.status.operationState.syncResult.resources }}
-            {{ if or (contains "configured" $value.message) (contains "created" $value.message)}}
+            {{ if or (contains "configured" $value.message) (contains "created" $value.message) (contains "pruning" $value.message)}}
             {{ $flag = true }}
             {{ $operations = concat $operations (list $value.message)}}
             {{ end }}
@@ -330,7 +330,7 @@ notifications:
           }]
     template.app-sync-outofsync: |
       message: |
-        {{if eq .serviceType "slack"}}:exclamation:{{end}} [*{{.app.metadata.name}}*] 에 작업이 적용되어 OutOfSync 되었습니다. 확인이 필요해요!
+        {{if eq .serviceType "slack"}}:exclamation:{{end}} [*{{.app.metadata.name}}*] 신규 변경사항이 있거나 액션이 적용되어 OutOfSync 되었습니다.
         <{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true|상세정보> ({{.app.status.operationState.startedAt}} ~ {{.app.status.operationState.finishedAt}})
       slack:
         attachments: |-
@@ -361,7 +361,7 @@ notifications:
             {{ $flag := false }}
             {{ $operations := list "" }}
             {{ range $key, $value := .app.status.operationState.syncResult.resources }}
-            {{ if or (contains "configured" $value.message) (contains "created" $value.message)}}
+            {{ if or (contains "configured" $value.message) (contains "created" $value.message) (contains "pruning" $value.message)}}
             {{ $flag = true }}
             {{ $operations = concat $operations (list $value.message)}}
             {{ end }}
