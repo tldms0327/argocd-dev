@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: name # replace this
+  annotations:
+    kubernetes.io/ingress.class: alb 
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:400956673334:certificate/b77ff718-a98b-4ffb-a5b6-cbb337965d84
+spec:
+  rules:
+    - host: alert-delivery.kkarin.com
+      http:
+        paths:
+        - path: /*
+          backend:
+            serviceName: alert-delivery
+            servicePort: 3000
