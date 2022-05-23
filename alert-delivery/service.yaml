@@ -6,7 +6,6 @@ metadata:
     run: alert-delivery
 spec:
   ports:
-  - port: 3000
-    protocol: TCP
-  selector:
-    run: alert-delivery
+    - name: http
+      port: 3000
+      targetPort: http
