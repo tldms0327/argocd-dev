@@ -5,6 +5,8 @@ metadata:
   labels:
     selector: alert-delivery
 spec:
+  selector:
+    app: alert-delivery
   ports:
     - name: http
       port: 3000
