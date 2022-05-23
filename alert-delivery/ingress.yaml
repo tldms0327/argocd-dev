@@ -12,6 +12,9 @@ spec:
     - host: alert-delivery.kkarin.com
       http:
         paths:
-        - backend:
-            serviceName: alert-delivery
-            servicePort: http
+        - path: /*
+          backend:
+            service:
+              name: alert-delivery
+              port:
+                number: 3000
