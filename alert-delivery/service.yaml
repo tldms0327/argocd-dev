@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: alert-delivery
   labels:
-    run: alert-delivery
+    selector: alert-delivery
 spec:
   ports:
     - name: http
