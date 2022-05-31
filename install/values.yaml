@@ -98,14 +98,14 @@ notifications:
       - slack:noti-argocd-addon
       triggers:
       - on-sync-succeeded
-    - recipients:
-      - slack:noti-argocd-apps
-      triggers:
-      - on-deployed
-      - on-health-degraded
-      - on-sync-failed
-      - on-sync-running
-      - on-sync-status-unknown
+    # - recipients:
+    #   - slack:noti-argocd-apps
+    #   triggers:
+    #   - on-deployed
+    #   - on-health-degraded
+    #   - on-sync-failed
+    #   - on-sync-running
+    #   - on-sync-status-unknown
 
   templates:
   
@@ -290,7 +290,7 @@ notifications:
             {{ if eq $flag false }}
             {
               "title": "Operation",
-              "value": "{{.app.status}}",
+              "value": "변경사항이 없습니다.",
               "short": false
             }
             {{ else }}
@@ -298,7 +298,7 @@ notifications:
               "title": "Operation",
               "value": "{{ join "\\n" $operations }}",
               "short": false
-            },
+            }
             {{ end }}
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
@@ -360,7 +360,7 @@ notifications:
               "title": "Operation",
               "value": "{{ join "\\n" $operations }}",
               "short": false
-            },
+            }
             {{ end }}
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
