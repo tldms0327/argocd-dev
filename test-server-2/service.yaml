@@ -6,7 +6,7 @@ metadata:
     run: test-server-2
 spec:
   ports:
-  - port: 8080
+  - port: 8000
     protocol: TCP
   selector:
     run: test-server-2
