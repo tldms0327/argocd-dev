@@ -284,7 +284,8 @@ notifications:
             {{ range $key, $value := .app.status.operationState.syncResult.resources }}
             {{ if or (contains "configured" $value.message) (contains "created" $value.message) (contains "pruning" $value.message)}}
             {{ $flag = true }}
-            {{ $operations = concat $operations (list $value.message)}}
+            {{ if contains "reconciled" $value.message }} {{ $operations = concat $operations (list "A resource reconciled.")}} 
+            {{ else }}{{ $operations = concat $operations (list $value.message)}} {{ end }}
             {{ end }}
             {{ end }}
             {{ if eq $flag false }}
@@ -344,7 +345,8 @@ notifications:
             {{ $flag := false }}
             {{ $operations := list "" }}
             {{ range $key, $value := .app.status.operationState.syncResult.resources }}
-            {{ if or (contains "configured" $value.message) (contains "created" $value.message) (contains "pruning" $value.message)}}
+            {{ if contains "reconciled" $value.message }} {{ $operations = concat $operations (list "A resource reconciled.")}} 
+            {{ else }}{{ $operations = concat $operations (list $value.message)}} {{ end }}
             {{ $flag = true }}
             {{ $operations = concat $operations (list $value.message)}}
             {{ end }}
