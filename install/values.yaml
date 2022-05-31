@@ -131,17 +131,6 @@ notifications:
               "value": "{{.app.spec.source.repoURL}}",
               "short": true
             },
-            {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
-            {
-              "title": "Revision Time",
-              "value": "{{$commitMetadata.Date}}(<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>) ",
-              "short": true
-            },
-            {
-              "title": "Revision Information",
-              "value": "{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
-              "short": false
-            },
             {
               "title": "Images",
               "value": "{{ range .app.status.summary.images }}- {{.}}\n{{end}}",
@@ -301,8 +290,8 @@ notifications:
             {{ if eq $flag false }}
             {
               "title": "Operation",
-              "value": "변경사항이 없습니다.",
-              "short": true
+              "value": "{{.app.status}}",
+              "short": false
             }
             {{ else }}
             {
@@ -310,12 +299,6 @@ notifications:
               "value": "{{ join "\\n" $operations }}",
               "short": false
             },
-            {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
-            {
-              "title": "Revision Information",
-              "value": "{{$commitMetadata.Date}} [<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>] \n{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
-              "short": false
-            }
             {{ end }}
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
@@ -378,12 +361,6 @@ notifications:
               "value": "{{ join "\\n" $operations }}",
               "short": false
             },
-            {{$commitMetadata := call .repo.GetCommitMetadata .app.status.sync.revision}}
-            {
-              "title": "Revision Information",
-              "value": "{{$commitMetadata.Date}} [<{{(call .repo.RepoURLToHTTPS .app.spec.source.repoURL) | replace ".git" "" }}/commit/{{.app.status.sync.revision}}|URL>] \n{{$commitMetadata.Author}} [{{$commitMetadata.Message}}]",
-              "short": false
-            }
             {{ end }}
             {{range $index, $c := .app.status.conditions}}
             {{if not $index}},{{end}}
