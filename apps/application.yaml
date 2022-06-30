@@ -51,6 +51,9 @@ kind: Application
 metadata:
   name: alert-delivery
   namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: noti-argocd-apps
+    notifications.argoproj.io/subscribe.on-deployed.slack: noti-argocd-apps
 
 spec:
   project: apps
