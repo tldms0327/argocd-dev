@@ -54,5 +54,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: alert-delivery
-            - secretRef:
-                name: alert-delivery
+            # - secretRef:
+            #     name: alert-delivery
