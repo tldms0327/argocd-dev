@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: alert-delivery
 resources:
 - external-secrets.yaml
+- service-account.yaml
 - deployment.yaml
 - service.yaml
 - ingress.yaml
