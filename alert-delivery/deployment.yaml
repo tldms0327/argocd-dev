@@ -15,22 +15,44 @@ spec:
       labels:
         app: alert-delivery
     spec:
+      serviceAccountName: alert-delivery
       containers:
         - name: alert-delivery
           image: alert-delivery
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3000
-              name: http
           resources:
             limits:
-              cpu: 100m
-              memory: 50Mi
+              cpu: "1024m"
+              memory: 1Gi
             requests:
-              cpu: 50m
-              memory: 50Mi
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/bin/sh", "-c", "sleep 30"]
-    
+              cpu: "1024m"
+              memory: 1Gi
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+            - name: client 
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /v1
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /v1
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+          envFrom:
+            - configMapRef:
+                name: alert-delivery
+            - secretRef:
+                name: alert-delivery
