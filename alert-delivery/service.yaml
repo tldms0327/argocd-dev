@@ -1,13 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: alert-delivery
-  labels:
-    selector: alert-delivery
+  name: alert-delivery-http
 spec:
-  selector:
-    app: alert-delivery
   ports:
     - name: http
-      port: 3000
+      port: 8000
       targetPort: http
+  selector:
+    app: alert-delivery
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alert-delivery-client
+spec:
+  ports:
+    - name: client
+      port: 3000
+      targetPort: client
+  selector:
+    app: alert-delivery
